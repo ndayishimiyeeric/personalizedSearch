@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        .site {
+            font-size: .8rem;
+            color: green;
+        }
+
+        .snippet {
+            font-size: .9rem;
+            color: gray;
+            margin-bottom: 1rem;
+        }
+
+        .rel_button {
+            cursor: pointer;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Home</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.query() }} {{ form.submit() }}
+            {% for error in form.query.errors %}
+                <span style="color: red;">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+    </form>
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <script>
+        const relevant = (query, link) => {
+            fetch('/relevance', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "query": query,
+                    "link": link,
+                })
+            })
+        };
+    </script>
+</body>
+</html>
