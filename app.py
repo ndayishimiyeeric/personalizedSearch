@@ -161,5 +161,15 @@ def user_login():
     return render_template('login.html', form=form)
 
 
+@app.route('/logout', endpoint='logout')
+@login_required
+def logout():
+    if load_user(current_user.id):
+        logout_user()
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('home'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
